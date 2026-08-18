@@ -10,33 +10,109 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as ProjectProjectIdRouteImport } from './routes/project.$projectId'
+import { Route as ProjectProjectIdIndexRouteImport } from './routes/project.$projectId.index'
+import { Route as ProjectProjectIdAuditRouteImport } from './routes/project.$projectId.audit'
+import { Route as ProjectProjectIdDashboardRouteImport } from './routes/project.$projectId.dashboard'
+import { Route as ProjectProjectIdAuditIndexRouteImport } from './routes/project.$projectId.audit.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectProjectIdRoute = ProjectProjectIdRouteImport.update({
+  id: '/project/$projectId',
+  path: '/project/$projectId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectProjectIdIndexRoute = ProjectProjectIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ProjectProjectIdRoute,
+} as any)
+const ProjectProjectIdAuditRoute = ProjectProjectIdAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => ProjectProjectIdRoute,
+} as any)
+const ProjectProjectIdDashboardRoute =
+  ProjectProjectIdDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => ProjectProjectIdRoute,
+  } as any)
+const ProjectProjectIdAuditIndexRoute =
+  ProjectProjectIdAuditIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => ProjectProjectIdAuditRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/projects': typeof ProjectsRoute
+  '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
+  '/project/$projectId/audit': typeof ProjectProjectIdAuditRouteWithChildren
+  '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
+  '/project/$projectId/': typeof ProjectProjectIdIndexRoute
+  '/project/$projectId/audit/': typeof ProjectProjectIdAuditIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/projects': typeof ProjectsRoute
+  '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
+  '/project/$projectId': typeof ProjectProjectIdIndexRoute
+  '/project/$projectId/audit': typeof ProjectProjectIdAuditIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/projects': typeof ProjectsRoute
+  '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
+  '/project/$projectId/audit': typeof ProjectProjectIdAuditRouteWithChildren
+  '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
+  '/project/$projectId/': typeof ProjectProjectIdIndexRoute
+  '/project/$projectId/audit/': typeof ProjectProjectIdAuditIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/projects'
+    | '/project/$projectId'
+    | '/project/$projectId/audit'
+    | '/project/$projectId/dashboard'
+    | '/project/$projectId/'
+    | '/project/$projectId/audit/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/projects'
+    | '/project/$projectId/dashboard'
+    | '/project/$projectId'
+    | '/project/$projectId/audit'
+  id:
+    | '__root__'
+    | '/'
+    | '/projects'
+    | '/project/$projectId'
+    | '/project/$projectId/audit'
+    | '/project/$projectId/dashboard'
+    | '/project/$projectId/'
+    | '/project/$projectId/audit/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ProjectsRoute: typeof ProjectsRoute
+  ProjectProjectIdRoute: typeof ProjectProjectIdRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +124,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/$projectId': {
+      id: '/project/$projectId'
+      path: '/project/$projectId'
+      fullPath: '/project/$projectId'
+      preLoaderRoute: typeof ProjectProjectIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/project/$projectId/': {
+      id: '/project/$projectId/'
+      path: '/'
+      fullPath: '/project/$projectId/'
+      preLoaderRoute: typeof ProjectProjectIdIndexRouteImport
+      parentRoute: typeof ProjectProjectIdRoute
+    }
+    '/project/$projectId/audit': {
+      id: '/project/$projectId/audit'
+      path: '/audit'
+      fullPath: '/project/$projectId/audit'
+      preLoaderRoute: typeof ProjectProjectIdAuditRouteImport
+      parentRoute: typeof ProjectProjectIdRoute
+    }
+    '/project/$projectId/dashboard': {
+      id: '/project/$projectId/dashboard'
+      path: '/dashboard'
+      fullPath: '/project/$projectId/dashboard'
+      preLoaderRoute: typeof ProjectProjectIdDashboardRouteImport
+      parentRoute: typeof ProjectProjectIdRoute
+    }
+    '/project/$projectId/audit/': {
+      id: '/project/$projectId/audit/'
+      path: '/'
+      fullPath: '/project/$projectId/audit/'
+      preLoaderRoute: typeof ProjectProjectIdAuditIndexRouteImport
+      parentRoute: typeof ProjectProjectIdAuditRoute
+    }
   }
 }
 
+interface ProjectProjectIdAuditRouteChildren {
+  ProjectProjectIdAuditIndexRoute: typeof ProjectProjectIdAuditIndexRoute
+}
+
+const ProjectProjectIdAuditRouteChildren: ProjectProjectIdAuditRouteChildren = {
+  ProjectProjectIdAuditIndexRoute: ProjectProjectIdAuditIndexRoute,
+}
+
+const ProjectProjectIdAuditRouteWithChildren =
+  ProjectProjectIdAuditRoute._addFileChildren(
+    ProjectProjectIdAuditRouteChildren,
+  )
+
+interface ProjectProjectIdRouteChildren {
+  ProjectProjectIdAuditRoute: typeof ProjectProjectIdAuditRouteWithChildren
+  ProjectProjectIdDashboardRoute: typeof ProjectProjectIdDashboardRoute
+  ProjectProjectIdIndexRoute: typeof ProjectProjectIdIndexRoute
+}
+
+const ProjectProjectIdRouteChildren: ProjectProjectIdRouteChildren = {
+  ProjectProjectIdAuditRoute: ProjectProjectIdAuditRouteWithChildren,
+  ProjectProjectIdDashboardRoute: ProjectProjectIdDashboardRoute,
+  ProjectProjectIdIndexRoute: ProjectProjectIdIndexRoute,
+}
+
+const ProjectProjectIdRouteWithChildren =
+  ProjectProjectIdRoute._addFileChildren(ProjectProjectIdRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ProjectsRoute: ProjectsRoute,
+  ProjectProjectIdRoute: ProjectProjectIdRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
