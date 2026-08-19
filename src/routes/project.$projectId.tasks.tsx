@@ -89,7 +89,7 @@ function TasksPage() {
       <PageHeader
         title="SEO Tasks"
         description="Everything your team committed to, grouped by status."
-        actions={
+        action={
           <Button onClick={() => setOpen(true)}>
             <Plus className="size-4" /> New Task
           </Button>
