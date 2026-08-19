@@ -18,6 +18,7 @@ import { Route as ProjectProjectIdContentRouteImport } from './routes/project.$p
 import { Route as ProjectProjectIdDashboardRouteImport } from './routes/project.$projectId.dashboard'
 import { Route as ProjectProjectIdKeywordsRouteImport } from './routes/project.$projectId.keywords'
 import { Route as ProjectProjectIdLinksRouteImport } from './routes/project.$projectId.links'
+import { Route as ProjectProjectIdSettingsRouteImport } from './routes/project.$projectId.settings'
 import { Route as ProjectProjectIdTasksRouteImport } from './routes/project.$projectId.tasks'
 import { Route as ProjectProjectIdAuditIndexRouteImport } from './routes/project.$projectId.audit.index'
 import { Route as ProjectProjectIdAuditIssueIdRouteImport } from './routes/project.$projectId.audit.$issueId'
@@ -69,6 +70,12 @@ const ProjectProjectIdLinksRoute = ProjectProjectIdLinksRouteImport.update({
   path: '/links',
   getParentRoute: () => ProjectProjectIdRoute,
 } as any)
+const ProjectProjectIdSettingsRoute =
+  ProjectProjectIdSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => ProjectProjectIdRoute,
+  } as any)
 const ProjectProjectIdTasksRoute = ProjectProjectIdTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
@@ -96,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
   '/project/$projectId/keywords': typeof ProjectProjectIdKeywordsRoute
   '/project/$projectId/links': typeof ProjectProjectIdLinksRoute
+  '/project/$projectId/settings': typeof ProjectProjectIdSettingsRoute
   '/project/$projectId/tasks': typeof ProjectProjectIdTasksRoute
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
   '/project/$projectId/audit/$issueId': typeof ProjectProjectIdAuditIssueIdRoute
@@ -108,6 +116,7 @@ export interface FileRoutesByTo {
   '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
   '/project/$projectId/keywords': typeof ProjectProjectIdKeywordsRoute
   '/project/$projectId/links': typeof ProjectProjectIdLinksRoute
+  '/project/$projectId/settings': typeof ProjectProjectIdSettingsRoute
   '/project/$projectId/tasks': typeof ProjectProjectIdTasksRoute
   '/project/$projectId': typeof ProjectProjectIdIndexRoute
   '/project/$projectId/audit/$issueId': typeof ProjectProjectIdAuditIssueIdRoute
@@ -123,6 +132,7 @@ export interface FileRoutesById {
   '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
   '/project/$projectId/keywords': typeof ProjectProjectIdKeywordsRoute
   '/project/$projectId/links': typeof ProjectProjectIdLinksRoute
+  '/project/$projectId/settings': typeof ProjectProjectIdSettingsRoute
   '/project/$projectId/tasks': typeof ProjectProjectIdTasksRoute
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
   '/project/$projectId/audit/$issueId': typeof ProjectProjectIdAuditIssueIdRoute
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/project/$projectId/dashboard'
     | '/project/$projectId/keywords'
     | '/project/$projectId/links'
+    | '/project/$projectId/settings'
     | '/project/$projectId/tasks'
     | '/project/$projectId/'
     | '/project/$projectId/audit/$issueId'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/project/$projectId/dashboard'
     | '/project/$projectId/keywords'
     | '/project/$projectId/links'
+    | '/project/$projectId/settings'
     | '/project/$projectId/tasks'
     | '/project/$projectId'
     | '/project/$projectId/audit/$issueId'
@@ -165,6 +177,7 @@ export interface FileRouteTypes {
     | '/project/$projectId/dashboard'
     | '/project/$projectId/keywords'
     | '/project/$projectId/links'
+    | '/project/$projectId/settings'
     | '/project/$projectId/tasks'
     | '/project/$projectId/'
     | '/project/$projectId/audit/$issueId'
@@ -242,6 +255,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectProjectIdLinksRouteImport
       parentRoute: typeof ProjectProjectIdRoute
     }
+    '/project/$projectId/settings': {
+      id: '/project/$projectId/settings'
+      path: '/settings'
+      fullPath: '/project/$projectId/settings'
+      preLoaderRoute: typeof ProjectProjectIdSettingsRouteImport
+      parentRoute: typeof ProjectProjectIdRoute
+    }
     '/project/$projectId/tasks': {
       id: '/project/$projectId/tasks'
       path: '/tasks'
@@ -287,6 +307,7 @@ interface ProjectProjectIdRouteChildren {
   ProjectProjectIdDashboardRoute: typeof ProjectProjectIdDashboardRoute
   ProjectProjectIdKeywordsRoute: typeof ProjectProjectIdKeywordsRoute
   ProjectProjectIdLinksRoute: typeof ProjectProjectIdLinksRoute
+  ProjectProjectIdSettingsRoute: typeof ProjectProjectIdSettingsRoute
   ProjectProjectIdTasksRoute: typeof ProjectProjectIdTasksRoute
   ProjectProjectIdIndexRoute: typeof ProjectProjectIdIndexRoute
 }
@@ -297,6 +318,7 @@ const ProjectProjectIdRouteChildren: ProjectProjectIdRouteChildren = {
   ProjectProjectIdDashboardRoute: ProjectProjectIdDashboardRoute,
   ProjectProjectIdKeywordsRoute: ProjectProjectIdKeywordsRoute,
   ProjectProjectIdLinksRoute: ProjectProjectIdLinksRoute,
+  ProjectProjectIdSettingsRoute: ProjectProjectIdSettingsRoute,
   ProjectProjectIdTasksRoute: ProjectProjectIdTasksRoute,
   ProjectProjectIdIndexRoute: ProjectProjectIdIndexRoute,
 }
