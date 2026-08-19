@@ -14,6 +14,7 @@ import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ProjectProjectIdRouteImport } from './routes/project.$projectId'
 import { Route as ProjectProjectIdIndexRouteImport } from './routes/project.$projectId.index'
 import { Route as ProjectProjectIdAuditRouteImport } from './routes/project.$projectId.audit'
+import { Route as ProjectProjectIdContentRouteImport } from './routes/project.$projectId.content'
 import { Route as ProjectProjectIdDashboardRouteImport } from './routes/project.$projectId.dashboard'
 import { Route as ProjectProjectIdKeywordsRouteImport } from './routes/project.$projectId.keywords'
 import { Route as ProjectProjectIdAuditIndexRouteImport } from './routes/project.$projectId.audit.index'
@@ -42,6 +43,11 @@ const ProjectProjectIdIndexRoute = ProjectProjectIdIndexRouteImport.update({
 const ProjectProjectIdAuditRoute = ProjectProjectIdAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
+  getParentRoute: () => ProjectProjectIdRoute,
+} as any)
+const ProjectProjectIdContentRoute = ProjectProjectIdContentRouteImport.update({
+  id: '/content',
+  path: '/content',
   getParentRoute: () => ProjectProjectIdRoute,
 } as any)
 const ProjectProjectIdDashboardRoute =
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/projects': typeof ProjectsRoute
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/audit': typeof ProjectProjectIdAuditRouteWithChildren
+  '/project/$projectId/content': typeof ProjectProjectIdContentRoute
   '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
   '/project/$projectId/keywords': typeof ProjectProjectIdKeywordsRoute
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
@@ -83,6 +90,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/projects': typeof ProjectsRoute
+  '/project/$projectId/content': typeof ProjectProjectIdContentRoute
   '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
   '/project/$projectId/keywords': typeof ProjectProjectIdKeywordsRoute
   '/project/$projectId': typeof ProjectProjectIdIndexRoute
@@ -95,6 +103,7 @@ export interface FileRoutesById {
   '/projects': typeof ProjectsRoute
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/audit': typeof ProjectProjectIdAuditRouteWithChildren
+  '/project/$projectId/content': typeof ProjectProjectIdContentRoute
   '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
   '/project/$projectId/keywords': typeof ProjectProjectIdKeywordsRoute
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
@@ -108,6 +117,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/project/$projectId'
     | '/project/$projectId/audit'
+    | '/project/$projectId/content'
     | '/project/$projectId/dashboard'
     | '/project/$projectId/keywords'
     | '/project/$projectId/'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/projects'
+    | '/project/$projectId/content'
     | '/project/$projectId/dashboard'
     | '/project/$projectId/keywords'
     | '/project/$projectId'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/project/$projectId'
     | '/project/$projectId/audit'
+    | '/project/$projectId/content'
     | '/project/$projectId/dashboard'
     | '/project/$projectId/keywords'
     | '/project/$projectId/'
@@ -178,6 +190,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectProjectIdAuditRouteImport
       parentRoute: typeof ProjectProjectIdRoute
     }
+    '/project/$projectId/content': {
+      id: '/project/$projectId/content'
+      path: '/content'
+      fullPath: '/project/$projectId/content'
+      preLoaderRoute: typeof ProjectProjectIdContentRouteImport
+      parentRoute: typeof ProjectProjectIdRoute
+    }
     '/project/$projectId/dashboard': {
       id: '/project/$projectId/dashboard'
       path: '/dashboard'
@@ -226,6 +245,7 @@ const ProjectProjectIdAuditRouteWithChildren =
 
 interface ProjectProjectIdRouteChildren {
   ProjectProjectIdAuditRoute: typeof ProjectProjectIdAuditRouteWithChildren
+  ProjectProjectIdContentRoute: typeof ProjectProjectIdContentRoute
   ProjectProjectIdDashboardRoute: typeof ProjectProjectIdDashboardRoute
   ProjectProjectIdKeywordsRoute: typeof ProjectProjectIdKeywordsRoute
   ProjectProjectIdIndexRoute: typeof ProjectProjectIdIndexRoute
@@ -233,6 +253,7 @@ interface ProjectProjectIdRouteChildren {
 
 const ProjectProjectIdRouteChildren: ProjectProjectIdRouteChildren = {
   ProjectProjectIdAuditRoute: ProjectProjectIdAuditRouteWithChildren,
+  ProjectProjectIdContentRoute: ProjectProjectIdContentRoute,
   ProjectProjectIdDashboardRoute: ProjectProjectIdDashboardRoute,
   ProjectProjectIdKeywordsRoute: ProjectProjectIdKeywordsRoute,
   ProjectProjectIdIndexRoute: ProjectProjectIdIndexRoute,
