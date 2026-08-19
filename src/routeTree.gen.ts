@@ -15,6 +15,7 @@ import { Route as ProjectProjectIdRouteImport } from './routes/project.$projectI
 import { Route as ProjectProjectIdIndexRouteImport } from './routes/project.$projectId.index'
 import { Route as ProjectProjectIdAuditRouteImport } from './routes/project.$projectId.audit'
 import { Route as ProjectProjectIdDashboardRouteImport } from './routes/project.$projectId.dashboard'
+import { Route as ProjectProjectIdKeywordsRouteImport } from './routes/project.$projectId.keywords'
 import { Route as ProjectProjectIdAuditIndexRouteImport } from './routes/project.$projectId.audit.index'
 import { Route as ProjectProjectIdAuditIssueIdRouteImport } from './routes/project.$projectId.audit.$issueId'
 
@@ -49,6 +50,12 @@ const ProjectProjectIdDashboardRoute =
     path: '/dashboard',
     getParentRoute: () => ProjectProjectIdRoute,
   } as any)
+const ProjectProjectIdKeywordsRoute =
+  ProjectProjectIdKeywordsRouteImport.update({
+    id: '/keywords',
+    path: '/keywords',
+    getParentRoute: () => ProjectProjectIdRoute,
+  } as any)
 const ProjectProjectIdAuditIndexRoute =
   ProjectProjectIdAuditIndexRouteImport.update({
     id: '/',
@@ -68,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/audit': typeof ProjectProjectIdAuditRouteWithChildren
   '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
+  '/project/$projectId/keywords': typeof ProjectProjectIdKeywordsRoute
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
   '/project/$projectId/audit/$issueId': typeof ProjectProjectIdAuditIssueIdRoute
   '/project/$projectId/audit/': typeof ProjectProjectIdAuditIndexRoute
@@ -76,6 +84,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/projects': typeof ProjectsRoute
   '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
+  '/project/$projectId/keywords': typeof ProjectProjectIdKeywordsRoute
   '/project/$projectId': typeof ProjectProjectIdIndexRoute
   '/project/$projectId/audit/$issueId': typeof ProjectProjectIdAuditIssueIdRoute
   '/project/$projectId/audit': typeof ProjectProjectIdAuditIndexRoute
@@ -87,6 +96,7 @@ export interface FileRoutesById {
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/audit': typeof ProjectProjectIdAuditRouteWithChildren
   '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
+  '/project/$projectId/keywords': typeof ProjectProjectIdKeywordsRoute
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
   '/project/$projectId/audit/$issueId': typeof ProjectProjectIdAuditIssueIdRoute
   '/project/$projectId/audit/': typeof ProjectProjectIdAuditIndexRoute
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/project/$projectId'
     | '/project/$projectId/audit'
     | '/project/$projectId/dashboard'
+    | '/project/$projectId/keywords'
     | '/project/$projectId/'
     | '/project/$projectId/audit/$issueId'
     | '/project/$projectId/audit/'
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/'
     | '/projects'
     | '/project/$projectId/dashboard'
+    | '/project/$projectId/keywords'
     | '/project/$projectId'
     | '/project/$projectId/audit/$issueId'
     | '/project/$projectId/audit'
@@ -117,6 +129,7 @@ export interface FileRouteTypes {
     | '/project/$projectId'
     | '/project/$projectId/audit'
     | '/project/$projectId/dashboard'
+    | '/project/$projectId/keywords'
     | '/project/$projectId/'
     | '/project/$projectId/audit/$issueId'
     | '/project/$projectId/audit/'
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectProjectIdDashboardRouteImport
       parentRoute: typeof ProjectProjectIdRoute
     }
+    '/project/$projectId/keywords': {
+      id: '/project/$projectId/keywords'
+      path: '/keywords'
+      fullPath: '/project/$projectId/keywords'
+      preLoaderRoute: typeof ProjectProjectIdKeywordsRouteImport
+      parentRoute: typeof ProjectProjectIdRoute
+    }
     '/project/$projectId/audit/': {
       id: '/project/$projectId/audit/'
       path: '/'
@@ -207,12 +227,14 @@ const ProjectProjectIdAuditRouteWithChildren =
 interface ProjectProjectIdRouteChildren {
   ProjectProjectIdAuditRoute: typeof ProjectProjectIdAuditRouteWithChildren
   ProjectProjectIdDashboardRoute: typeof ProjectProjectIdDashboardRoute
+  ProjectProjectIdKeywordsRoute: typeof ProjectProjectIdKeywordsRoute
   ProjectProjectIdIndexRoute: typeof ProjectProjectIdIndexRoute
 }
 
 const ProjectProjectIdRouteChildren: ProjectProjectIdRouteChildren = {
   ProjectProjectIdAuditRoute: ProjectProjectIdAuditRouteWithChildren,
   ProjectProjectIdDashboardRoute: ProjectProjectIdDashboardRoute,
+  ProjectProjectIdKeywordsRoute: ProjectProjectIdKeywordsRoute,
   ProjectProjectIdIndexRoute: ProjectProjectIdIndexRoute,
 }
 
