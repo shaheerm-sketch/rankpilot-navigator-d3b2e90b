@@ -10,16 +10,28 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ManagerRouteImport } from './routes/manager'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as ProjectProjectIdRouteImport } from './routes/project.$projectId'
 import { Route as ProjectProjectIdIndexRouteImport } from './routes/project.$projectId.index'
 import { Route as ProjectProjectIdAuditRouteImport } from './routes/project.$projectId.audit'
+import { Route as ProjectProjectIdContentRouteImport } from './routes/project.$projectId.content'
 import { Route as ProjectProjectIdDashboardRouteImport } from './routes/project.$projectId.dashboard'
+import { Route as ProjectProjectIdKeywordsRouteImport } from './routes/project.$projectId.keywords'
+import { Route as ProjectProjectIdLinksRouteImport } from './routes/project.$projectId.links'
+import { Route as ProjectProjectIdSettingsRouteImport } from './routes/project.$projectId.settings'
+import { Route as ProjectProjectIdTasksRouteImport } from './routes/project.$projectId.tasks'
 import { Route as ProjectProjectIdAuditIndexRouteImport } from './routes/project.$projectId.audit.index'
+import { Route as ProjectProjectIdAuditIssueIdRouteImport } from './routes/project.$projectId.audit.$issueId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ManagerRoute = ManagerRouteImport.update({
+  id: '/manager',
+  path: '/manager',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsRoute = ProjectsRouteImport.update({
@@ -42,75 +54,151 @@ const ProjectProjectIdAuditRoute = ProjectProjectIdAuditRouteImport.update({
   path: '/audit',
   getParentRoute: () => ProjectProjectIdRoute,
 } as any)
+const ProjectProjectIdContentRoute = ProjectProjectIdContentRouteImport.update({
+  id: '/content',
+  path: '/content',
+  getParentRoute: () => ProjectProjectIdRoute,
+} as any)
 const ProjectProjectIdDashboardRoute =
   ProjectProjectIdDashboardRouteImport.update({
     id: '/dashboard',
     path: '/dashboard',
     getParentRoute: () => ProjectProjectIdRoute,
   } as any)
+const ProjectProjectIdKeywordsRoute =
+  ProjectProjectIdKeywordsRouteImport.update({
+    id: '/keywords',
+    path: '/keywords',
+    getParentRoute: () => ProjectProjectIdRoute,
+  } as any)
+const ProjectProjectIdLinksRoute = ProjectProjectIdLinksRouteImport.update({
+  id: '/links',
+  path: '/links',
+  getParentRoute: () => ProjectProjectIdRoute,
+} as any)
+const ProjectProjectIdSettingsRoute =
+  ProjectProjectIdSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => ProjectProjectIdRoute,
+  } as any)
+const ProjectProjectIdTasksRoute = ProjectProjectIdTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => ProjectProjectIdRoute,
+} as any)
 const ProjectProjectIdAuditIndexRoute =
   ProjectProjectIdAuditIndexRouteImport.update({
     id: '/',
     path: '/',
     getParentRoute: () => ProjectProjectIdAuditRoute,
   } as any)
+const ProjectProjectIdAuditIssueIdRoute =
+  ProjectProjectIdAuditIssueIdRouteImport.update({
+    id: '/$issueId',
+    path: '/$issueId',
+    getParentRoute: () => ProjectProjectIdAuditRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/manager': typeof ManagerRoute
   '/projects': typeof ProjectsRoute
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/audit': typeof ProjectProjectIdAuditRouteWithChildren
+  '/project/$projectId/content': typeof ProjectProjectIdContentRoute
   '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
+  '/project/$projectId/keywords': typeof ProjectProjectIdKeywordsRoute
+  '/project/$projectId/links': typeof ProjectProjectIdLinksRoute
+  '/project/$projectId/settings': typeof ProjectProjectIdSettingsRoute
+  '/project/$projectId/tasks': typeof ProjectProjectIdTasksRoute
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
+  '/project/$projectId/audit/$issueId': typeof ProjectProjectIdAuditIssueIdRoute
   '/project/$projectId/audit/': typeof ProjectProjectIdAuditIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/manager': typeof ManagerRoute
   '/projects': typeof ProjectsRoute
+  '/project/$projectId/content': typeof ProjectProjectIdContentRoute
   '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
+  '/project/$projectId/keywords': typeof ProjectProjectIdKeywordsRoute
+  '/project/$projectId/links': typeof ProjectProjectIdLinksRoute
+  '/project/$projectId/settings': typeof ProjectProjectIdSettingsRoute
+  '/project/$projectId/tasks': typeof ProjectProjectIdTasksRoute
   '/project/$projectId': typeof ProjectProjectIdIndexRoute
+  '/project/$projectId/audit/$issueId': typeof ProjectProjectIdAuditIssueIdRoute
   '/project/$projectId/audit': typeof ProjectProjectIdAuditIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/manager': typeof ManagerRoute
   '/projects': typeof ProjectsRoute
   '/project/$projectId': typeof ProjectProjectIdRouteWithChildren
   '/project/$projectId/audit': typeof ProjectProjectIdAuditRouteWithChildren
+  '/project/$projectId/content': typeof ProjectProjectIdContentRoute
   '/project/$projectId/dashboard': typeof ProjectProjectIdDashboardRoute
+  '/project/$projectId/keywords': typeof ProjectProjectIdKeywordsRoute
+  '/project/$projectId/links': typeof ProjectProjectIdLinksRoute
+  '/project/$projectId/settings': typeof ProjectProjectIdSettingsRoute
+  '/project/$projectId/tasks': typeof ProjectProjectIdTasksRoute
   '/project/$projectId/': typeof ProjectProjectIdIndexRoute
+  '/project/$projectId/audit/$issueId': typeof ProjectProjectIdAuditIssueIdRoute
   '/project/$projectId/audit/': typeof ProjectProjectIdAuditIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/manager'
     | '/projects'
     | '/project/$projectId'
     | '/project/$projectId/audit'
+    | '/project/$projectId/content'
     | '/project/$projectId/dashboard'
+    | '/project/$projectId/keywords'
+    | '/project/$projectId/links'
+    | '/project/$projectId/settings'
+    | '/project/$projectId/tasks'
     | '/project/$projectId/'
+    | '/project/$projectId/audit/$issueId'
     | '/project/$projectId/audit/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/manager'
     | '/projects'
+    | '/project/$projectId/content'
     | '/project/$projectId/dashboard'
+    | '/project/$projectId/keywords'
+    | '/project/$projectId/links'
+    | '/project/$projectId/settings'
+    | '/project/$projectId/tasks'
     | '/project/$projectId'
+    | '/project/$projectId/audit/$issueId'
     | '/project/$projectId/audit'
   id:
     | '__root__'
     | '/'
+    | '/manager'
     | '/projects'
     | '/project/$projectId'
     | '/project/$projectId/audit'
+    | '/project/$projectId/content'
     | '/project/$projectId/dashboard'
+    | '/project/$projectId/keywords'
+    | '/project/$projectId/links'
+    | '/project/$projectId/settings'
+    | '/project/$projectId/tasks'
     | '/project/$projectId/'
+    | '/project/$projectId/audit/$issueId'
     | '/project/$projectId/audit/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ManagerRoute: typeof ManagerRoute
   ProjectsRoute: typeof ProjectsRoute
   ProjectProjectIdRoute: typeof ProjectProjectIdRouteWithChildren
 }
@@ -122,6 +210,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/manager': {
+      id: '/manager'
+      path: '/manager'
+      fullPath: '/manager'
+      preLoaderRoute: typeof ManagerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects': {
@@ -152,11 +247,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectProjectIdAuditRouteImport
       parentRoute: typeof ProjectProjectIdRoute
     }
+    '/project/$projectId/content': {
+      id: '/project/$projectId/content'
+      path: '/content'
+      fullPath: '/project/$projectId/content'
+      preLoaderRoute: typeof ProjectProjectIdContentRouteImport
+      parentRoute: typeof ProjectProjectIdRoute
+    }
     '/project/$projectId/dashboard': {
       id: '/project/$projectId/dashboard'
       path: '/dashboard'
       fullPath: '/project/$projectId/dashboard'
       preLoaderRoute: typeof ProjectProjectIdDashboardRouteImport
+      parentRoute: typeof ProjectProjectIdRoute
+    }
+    '/project/$projectId/keywords': {
+      id: '/project/$projectId/keywords'
+      path: '/keywords'
+      fullPath: '/project/$projectId/keywords'
+      preLoaderRoute: typeof ProjectProjectIdKeywordsRouteImport
+      parentRoute: typeof ProjectProjectIdRoute
+    }
+    '/project/$projectId/links': {
+      id: '/project/$projectId/links'
+      path: '/links'
+      fullPath: '/project/$projectId/links'
+      preLoaderRoute: typeof ProjectProjectIdLinksRouteImport
+      parentRoute: typeof ProjectProjectIdRoute
+    }
+    '/project/$projectId/settings': {
+      id: '/project/$projectId/settings'
+      path: '/settings'
+      fullPath: '/project/$projectId/settings'
+      preLoaderRoute: typeof ProjectProjectIdSettingsRouteImport
+      parentRoute: typeof ProjectProjectIdRoute
+    }
+    '/project/$projectId/tasks': {
+      id: '/project/$projectId/tasks'
+      path: '/tasks'
+      fullPath: '/project/$projectId/tasks'
+      preLoaderRoute: typeof ProjectProjectIdTasksRouteImport
       parentRoute: typeof ProjectProjectIdRoute
     }
     '/project/$projectId/audit/': {
@@ -166,14 +296,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjectProjectIdAuditIndexRouteImport
       parentRoute: typeof ProjectProjectIdAuditRoute
     }
+    '/project/$projectId/audit/$issueId': {
+      id: '/project/$projectId/audit/$issueId'
+      path: '/$issueId'
+      fullPath: '/project/$projectId/audit/$issueId'
+      preLoaderRoute: typeof ProjectProjectIdAuditIssueIdRouteImport
+      parentRoute: typeof ProjectProjectIdAuditRoute
+    }
   }
 }
 
 interface ProjectProjectIdAuditRouteChildren {
+  ProjectProjectIdAuditIssueIdRoute: typeof ProjectProjectIdAuditIssueIdRoute
   ProjectProjectIdAuditIndexRoute: typeof ProjectProjectIdAuditIndexRoute
 }
 
 const ProjectProjectIdAuditRouteChildren: ProjectProjectIdAuditRouteChildren = {
+  ProjectProjectIdAuditIssueIdRoute: ProjectProjectIdAuditIssueIdRoute,
   ProjectProjectIdAuditIndexRoute: ProjectProjectIdAuditIndexRoute,
 }
 
@@ -184,13 +323,23 @@ const ProjectProjectIdAuditRouteWithChildren =
 
 interface ProjectProjectIdRouteChildren {
   ProjectProjectIdAuditRoute: typeof ProjectProjectIdAuditRouteWithChildren
+  ProjectProjectIdContentRoute: typeof ProjectProjectIdContentRoute
   ProjectProjectIdDashboardRoute: typeof ProjectProjectIdDashboardRoute
+  ProjectProjectIdKeywordsRoute: typeof ProjectProjectIdKeywordsRoute
+  ProjectProjectIdLinksRoute: typeof ProjectProjectIdLinksRoute
+  ProjectProjectIdSettingsRoute: typeof ProjectProjectIdSettingsRoute
+  ProjectProjectIdTasksRoute: typeof ProjectProjectIdTasksRoute
   ProjectProjectIdIndexRoute: typeof ProjectProjectIdIndexRoute
 }
 
 const ProjectProjectIdRouteChildren: ProjectProjectIdRouteChildren = {
   ProjectProjectIdAuditRoute: ProjectProjectIdAuditRouteWithChildren,
+  ProjectProjectIdContentRoute: ProjectProjectIdContentRoute,
   ProjectProjectIdDashboardRoute: ProjectProjectIdDashboardRoute,
+  ProjectProjectIdKeywordsRoute: ProjectProjectIdKeywordsRoute,
+  ProjectProjectIdLinksRoute: ProjectProjectIdLinksRoute,
+  ProjectProjectIdSettingsRoute: ProjectProjectIdSettingsRoute,
+  ProjectProjectIdTasksRoute: ProjectProjectIdTasksRoute,
   ProjectProjectIdIndexRoute: ProjectProjectIdIndexRoute,
 }
 
@@ -199,6 +348,7 @@ const ProjectProjectIdRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ManagerRoute: ManagerRoute,
   ProjectsRoute: ProjectsRoute,
   ProjectProjectIdRoute: ProjectProjectIdRouteWithChildren,
 }
