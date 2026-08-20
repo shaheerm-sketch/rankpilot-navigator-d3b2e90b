@@ -61,11 +61,12 @@ const statusLabels: Record<Project["status"], string> = {
 };
 
 function ProjectsPage() {
-  const { projects, addProject, updateProject, deleteProject } = useStore();
+  const { projects, projectsLoading, addProject, updateProject, deleteProject } = useStore();
   const navigate = useNavigate();
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Project | null>(null);
   const [pendingDelete, setPendingDelete] = useState<Project | null>(null);
+  const [saving, setSaving] = useState(false);
 
   const [name, setName] = useState("");
   const [url, setUrl] = useState("");
@@ -90,7 +91,7 @@ function ProjectsPage() {
     setFormOpen(true);
   };
 
-  const save = () => {
+  const save = async () => {
     const next: Record<string, string> = {};
     if (!name.trim()) next["name"] = "Project name is required.";
     if (!url.trim()) next["url"] = "Website URL is required.";
@@ -99,24 +100,35 @@ function ProjectsPage() {
     setErrors(next);
     if (Object.keys(next).length) return;
 
-    if (editing) {
-      updateProject(editing.id, {
-        name: name.trim(),
-        domain: url.trim().replace(/^https?:\/\//, "").replace(/\/$/, ""),
-        description: description.trim(),
-      });
-      toast.success("Project updated");
-    } else {
-      addProject({ name: name.trim(), domain: url.trim(), description: description.trim() });
-      toast.success("Project created", { description: "Initial crawl queued in this prototype." });
+    setSaving(true);
+    try {
+      if (editing) {
+        await updateProject(editing.id, {
+          name: name.trim(),
+          domain: url.trim().replace(/^https?:\/\//, "").replace(/\/$/, ""),
+          description: description.trim(),
+        });
+        toast.success("Project updated");
+      } else {
+        await addProject({ name: name.trim(), domain: url.trim(), description: description.trim() });
+        toast.success("Project created", { description: "Saved to your account." });
+      }
+      setFormOpen(false);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setSaving(false);
     }
-    setFormOpen(false);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (!pendingDelete) return;
-    deleteProject(pendingDelete.id);
-    toast.success(`${pendingDelete.name} deleted`);
+    try {
+      await deleteProject(pendingDelete.id);
+      toast.success(`${pendingDelete.name} deleted`);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not delete project");
+    }
     setPendingDelete(null);
   };
 
@@ -160,10 +172,16 @@ function ProjectsPage() {
           </Button>
         </div>
 
-        {projects.length === 0 ? (
+        {projectsLoading ? (
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="h-64 animate-pulse rounded-2xl border border-border bg-card" />
+            ))}
+          </div>
+        ) : projects.length === 0 ? (
           <EmptyState
             title="No projects yet"
-            message="Opportunities will appear here when project data is available."
+            message="Create your first project to start tracking SEO opportunities."
             icon={<Globe className="size-5" />}
             action={
               <Button onClick={openCreate}>
@@ -290,7 +308,9 @@ function ProjectsPage() {
             <Button variant="outline" onClick={() => setFormOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={save}>{editing ? "Save Changes" : "Create Project"}</Button>
+            <Button onClick={save} disabled={saving}>
+              {saving ? "Saving…" : editing ? "Save Changes" : "Create Project"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -87,6 +87,34 @@ function DashboardPage() {
         <LoadingCards count={6} />
       ) : (
         <>
+          <section className="mb-4 rounded-2xl border border-border bg-card p-5 shadow-card">
+            <h2 className="text-sm font-semibold text-muted-foreground">Project details</h2>
+            <dl className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div>
+                <dt className="text-xs text-muted-foreground">Name</dt>
+                <dd className="mt-0.5 font-semibold">{project.name}</dd>
+              </div>
+              <div>
+                <dt className="text-xs text-muted-foreground">Website</dt>
+                <dd className="mt-0.5 truncate font-semibold">{project.domain}</dd>
+              </div>
+              <div>
+                <dt className="text-xs text-muted-foreground">Status</dt>
+                <dd className="mt-0.5 font-semibold capitalize">{project.status.replace("-", " ")}</dd>
+              </div>
+              <div>
+                <dt className="text-xs text-muted-foreground">Last updated</dt>
+                <dd className="mt-0.5 font-semibold">{project.lastUpdated}</dd>
+              </div>
+              <div className="sm:col-span-2 lg:col-span-4">
+                <dt className="text-xs text-muted-foreground">Description</dt>
+                <dd className="mt-0.5 text-sm">
+                  {project.description || "No description added yet."}
+                </dd>
+              </div>
+            </dl>
+          </section>
+
           <div className="grid gap-4 lg:grid-cols-3">
             <SEOHealthCard score={project.health} domain={project.domain} />
             <div className="grid gap-4 sm:grid-cols-2 lg:col-span-2">

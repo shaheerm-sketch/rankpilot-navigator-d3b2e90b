@@ -57,19 +57,27 @@ function SettingsPage() {
 
   if (!project) return null;
 
-  const save = () => {
+  const save = async () => {
     const next: Record<string, string> = {};
     if (!name.trim()) next["name"] = "Project name is required.";
     if (!domain.trim()) next["domain"] = "Domain is required.";
     setErrors(next);
     if (Object.keys(next).length) return;
-    updateProject(project.id, { name: name.trim(), domain: domain.trim(), description: description.trim() });
-    toast.success("Settings saved", { description: "Project details updated." });
+    try {
+      await updateProject(project.id, {
+        name: name.trim(),
+        domain: domain.trim(),
+        description: description.trim(),
+      });
+      toast.success("Settings saved", { description: "Project details updated." });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not save settings");
+    }
   };
 
   return (
     <div>
-      <PageHeader title="Project Settings" description="Prototype settings — changes are kept in local session state." />
+      <PageHeader title="Project Settings" description="Manage this project's details and team." />
 
       <div className="grid gap-6 lg:grid-cols-3">
         <section className="space-y-4 rounded-2xl border border-border bg-card p-6 shadow-card lg:col-span-2">
@@ -145,17 +153,19 @@ function SettingsPage() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete "{project.name}"?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This removes the project and its data from the prototype session.
-            </AlertDialogDescription>
+            <AlertDialogDescription>This permanently removes the project from your account.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={() => {
-                deleteProject(project.id);
-                toast.success("Project deleted", { description: project.name });
-                navigate({ to: "/projects" });
+              onClick={async () => {
+                try {
+                  await deleteProject(project.id);
+                  toast.success("Project deleted", { description: project.name });
+                  navigate({ to: "/projects" });
+                } catch (err) {
+                  toast.error(err instanceof Error ? err.message : "Could not delete project");
+                }
               }}
             >
               Delete

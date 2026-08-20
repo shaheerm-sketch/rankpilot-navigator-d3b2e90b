@@ -38,6 +38,54 @@ export type Database = {
         }
         Relationships: []
       }
+      projects: {
+        Row: {
+          content_opportunities: number
+          created_at: string
+          description: string
+          domain: string
+          health: number
+          id: string
+          keyword_opportunities: number
+          link_opportunities: number
+          name: string
+          open_issues: number
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content_opportunities?: number
+          created_at?: string
+          description?: string
+          domain: string
+          health?: number
+          id?: string
+          keyword_opportunities?: number
+          link_opportunities?: number
+          name: string
+          open_issues?: number
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content_opportunities?: number
+          created_at?: string
+          description?: string
+          domain?: string
+          health?: number
+          id?: string
+          keyword_opportunities?: number
+          link_opportunities?: number
+          name?: string
+          open_issues?: number
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
