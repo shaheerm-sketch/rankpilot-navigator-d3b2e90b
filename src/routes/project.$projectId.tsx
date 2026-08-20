@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { AppShell } from "@/components/rankpilot/app-shell";
 import { EmptyState } from "@/components/rankpilot/states";
 import { Button } from "@/components/ui/button";
-import { useProject } from "@/lib/store";
+import { useProject, useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/project/$projectId")({
   component: ProjectLayout,
@@ -11,6 +11,15 @@ export const Route = createFileRoute("/project/$projectId")({
 function ProjectLayout() {
   const { projectId } = Route.useParams();
   const project = useProject(projectId);
+  const { projectsLoading } = useStore();
+
+  if (projectsLoading) {
+    return (
+      <div className="mx-auto max-w-2xl px-4 py-20">
+        <div className="h-40 animate-pulse rounded-2xl border border-border bg-card" />
+      </div>
+    );
+  }
 
   if (!project) {
     return (
