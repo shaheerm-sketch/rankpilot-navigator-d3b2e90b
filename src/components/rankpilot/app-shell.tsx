@@ -25,6 +25,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useStore } from "@/lib/store";
+import { useAuth } from "@/hooks/use-auth";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -53,9 +54,19 @@ export function Logo({ inverted }: { inverted?: boolean }) {
 export function AppShell({ children }: { children: ReactNode }) {
   const { projectId } = useParams({ from: "/project/$projectId" });
   const { projects, role, setRole } = useStore();
+  const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const project = projects.find((p) => p.id === projectId);
+  const displayName =
+    (user?.user_metadata?.["full_name"] as string | undefined) ?? user?.email ?? "Demo user";
+  const initials = displayName
+    .split(/[\s@.]+/)
+    .filter(Boolean)
+    .map((w) => w[0]!)
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
 
   const sidebar = (
     <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
@@ -135,13 +146,13 @@ export function AppShell({ children }: { children: ReactNode }) {
             <DropdownMenu>
               <DropdownMenuTrigger className="flex items-center gap-2 rounded-full border border-border bg-card py-1 pr-3 pl-1 text-sm font-medium transition hover:bg-accent">
                 <span className="flex size-7 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
-                  SK
+                  {initials}
                 </span>
-                <span className="hidden sm:inline">Sarah Klein</span>
+                <span className="hidden max-w-[10rem] truncate sm:inline">{displayName}</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>
-                  Sarah Klein
+                  <span className="block truncate">{displayName}</span>
                   <span className="block text-xs font-normal text-muted-foreground">
                     Demo role: {role === "manager" ? "SEO Manager" : "SEO Specialist"}
                   </span>
@@ -155,7 +166,12 @@ export function AppShell({ children }: { children: ReactNode }) {
                 </DropdownMenuItem>
                 <DropdownMenuItem onSelect={() => navigate({ to: "/projects" })}>All projects</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onSelect={() => navigate({ to: "/" })}>
+                <DropdownMenuItem
+                  onSelect={async () => {
+                    await signOut();
+                    navigate({ to: "/auth", replace: true });
+                  }}
+                >
                   <LogOut className="size-4" /> Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>
