@@ -152,12 +152,18 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   );
 
   const updateProject = useCallback(async (id: string, patch: Partial<Project>) => {
-    const row: Record<string, unknown> = {};
-    if (patch.name !== undefined) row["name"] = patch.name;
-    if (patch.domain !== undefined) row["domain"] = patch.domain;
-    if (patch.description !== undefined) row["description"] = patch.description;
-    if (patch.health !== undefined) row["health"] = patch.health;
-    if (patch.status !== undefined) row["status"] = patch.status;
+    const row: {
+      name?: string;
+      domain?: string;
+      description?: string;
+      health?: number;
+      status?: string;
+    } = {};
+    if (patch.name !== undefined) row.name = patch.name;
+    if (patch.domain !== undefined) row.domain = patch.domain;
+    if (patch.description !== undefined) row.description = patch.description;
+    if (patch.health !== undefined) row.health = patch.health;
+    if (patch.status !== undefined) row.status = patch.status;
     const { error } = await supabase.from("projects").update(row).eq("id", id);
     if (error) throw new Error(error.message);
     setProjects((prev) => prev.map((p) => (p.id === id ? { ...p, ...patch, lastUpdated: "Just now" } : p)));
